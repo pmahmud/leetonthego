@@ -1,25 +1,39 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { ArrowRightIcon, ArrowsRightLeftIcon, MagnifyingGlassIcon, XMarkIcon, ListBulletIcon, BookmarkIcon } from '@heroicons/react/24/outline';
-import { useState, useEffect } from 'react';
-import problems from '../data/problems.json';
+import { Link, useNavigate } from "react-router-dom";
+import {
+  ArrowRightIcon,
+  ArrowsRightLeftIcon,
+  MagnifyingGlassIcon,
+  XMarkIcon,
+  ListBulletIcon,
+  BookmarkIcon,
+} from "@heroicons/react/24/outline";
+import { useState, useEffect } from "react";
+import problems from "../data/problems.json";
 
 export default function Home() {
   const navigate = useNavigate();
-  const [jumpProblemNumber, setJumpProblemNumber] = useState<number | null>(null);
+  const [jumpProblemNumber, setJumpProblemNumber] = useState<number | null>(
+    null
+  );
   const [isJumpModalOpen, setIsJumpModalOpen] = useState(false);
   const [isListModalOpen, setIsListModalOpen] = useState(false);
-  const [bookmarkedProblem, setBookmarkedProblem] = useState<string | null>(null);
+  const [bookmarkedProblem, setBookmarkedProblem] = useState<string | null>(
+    null
+  );
 
   useEffect(() => {
-    setBookmarkedProblem(localStorage.getItem('bookmarkedProblem'));
+    setBookmarkedProblem(localStorage.getItem("bookmarkedProblem"));
   }, []);
 
   const handleJumpToProblem = () => {
-    if (jumpProblemNumber && problems.some(p => p.number === jumpProblemNumber)) {
+    if (
+      jumpProblemNumber &&
+      problems.some((p) => p.number === jumpProblemNumber)
+    ) {
       navigate(`/problem/${jumpProblemNumber}?mode=sequential`);
       setIsJumpModalOpen(false);
     } else if (jumpProblemNumber) {
-      alert('Problem not found!');
+      alert("Problem not found!");
     }
   };
 
@@ -30,11 +44,15 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center p-4">
-      <h1 className="text-5xl font-bold mb-12 text-center">LeetCode Flashcards</h1>
+      <h1 className="text-5xl font-bold mb-12 text-center">
+        LeetCode on the go!
+      </h1>
       <div className="space-y-6">
         {bookmarkedProblem && (
           <button
-            onClick={() => navigate(`/problem/${bookmarkedProblem}?mode=sequential`)}
+            onClick={() =>
+              navigate(`/problem/${bookmarkedProblem}?mode=sequential`)
+            }
             className="w-80 bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-4 px-6 rounded-lg text-xl flex items-center justify-center"
           >
             <BookmarkIcon className="h-6 w-6 mr-3" />
@@ -82,7 +100,9 @@ export default function Home() {
             >
               <XMarkIcon className="h-6 w-6" />
             </button>
-            <h2 className="text-2xl font-bold mb-6 text-white">Jump to Problem</h2>
+            <h2 className="text-2xl font-bold mb-6 text-white">
+              Jump to Problem
+            </h2>
             <input
               type="number"
               placeholder="Enter Problem Number"
@@ -110,16 +130,18 @@ export default function Home() {
             </button>
             <h2 className="text-2xl font-bold mb-6 text-white">All Problems</h2>
             <ul className="divide-y divide-gray-700">
-              {problems.sort((a, b) => a.number - b.number).map((p) => (
-                <li key={p.number}>
-                  <button
-                    onClick={() => handleProblemClick(p.number)}
-                    className="w-full text-left py-3 px-4 text-white text-lg hover:bg-gray-700"
-                  >
-                    Problem {p.number}
-                  </button>
-                </li>
-              ))}
+              {problems
+                .sort((a, b) => a.number - b.number)
+                .map((p) => (
+                  <li key={p.number}>
+                    <button
+                      onClick={() => handleProblemClick(p.number)}
+                      className="w-full text-left py-3 px-4 text-white text-lg hover:bg-gray-700"
+                    >
+                      Problem {p.number}
+                    </button>
+                  </li>
+                ))}
             </ul>
           </div>
         </div>
@@ -127,5 +149,3 @@ export default function Home() {
     </div>
   );
 }
-
-
